@@ -17,7 +17,7 @@
 
                 if (userIndex >= 0)
                 {
-                    Console.WriteLine("Snart händer spännande grejjor");
+                    UserMenu(userIndex);
                 }
                 else
                 {
@@ -65,11 +65,51 @@
                             Console.WriteLine("Ogiltlig PIN. Vänligen använd 4 siffror.");
                         }
                     }
-                   
+
                 }
             }
-            
+
             return -1;
+        }
+        static void UserMenu(int userIndex)
+        {
+            while (true)
+            {
+                Console.WriteLine("Vad vill du göra idag?");
+
+                Console.WriteLine("[1] Se dina konton och saldo");
+                Console.WriteLine("[2] Överföring mellan konton");
+                Console.WriteLine("[3] Ta ut pengar");
+                Console.WriteLine("[4] Logga ut");
+
+                int userInput = Convert.ToInt32(Console.ReadLine());
+
+                switch (userInput)
+                {
+                    case 1:
+                        // Metod för att se konton och saldo
+                        Console.WriteLine("alternativ 1");
+                        break;
+
+                    case 2:
+                        // Metod för överföring mellan konton
+                        Console.WriteLine("Alternativ 2");
+                        break;
+
+                    case 3:
+                        Console.WriteLine("Alternativ 3");
+                        //Metod för att ta ut pengar
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Loggar ut...");
+                        return;
+                    default:
+                        Console.WriteLine("Ogiltligt val. Försök igen.");
+                        break;
+
+                }
+            }
         }
     }
 }
