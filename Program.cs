@@ -15,7 +15,7 @@
           new  decimal [] {20000m, 200000m},
           new  decimal [] {20000m, 200000m, 2000m},
           new  decimal [] {10000m, 100000m, 1000m, 100m},
-          new  decimal [] {10000m, 100000m, 1000m, 5000m, 7000m} 
+          new  decimal [] {10000m, 100000m, 1000m, 5000m, 7000m}
         };
 
         static string[][] accountNames =
@@ -49,6 +49,7 @@
                 else
                 {
                     Console.WriteLine("För många misslyckade försök. Banken spärras!****");
+                    break;
                 }
 
             }
@@ -78,7 +79,7 @@
                             if (passWordArray[i] == PIN)
                             {
 
-                                
+
                                 Console.WriteLine("Loggar nu in på din bank......*");
                                 Console.WriteLine("Tryck enter för att fortsätta: ");
                                 Console.ReadKey();
@@ -111,7 +112,12 @@
                 Console.WriteLine("[3] Ta ut pengar");
                 Console.WriteLine("[4] Logga ut");
 
-                int userInput = Convert.ToInt32(Console.ReadLine());
+                string input = Console.ReadLine();
+                int userInput;
+                if (!int.TryParse(input, out userInput))
+                {
+                    Console.WriteLine("Ogiltlig inmatning, skriv ett nummer mellan 1 - 4.");
+                }
 
                 switch (userInput)
                 {
@@ -122,7 +128,8 @@
 
                     case 2:
                         // Metod för överföring mellan konton
-                        Console.WriteLine("Alternativ 2");
+                        TransferMoney(userIndex);
+
                         break;
 
                     case 3:
@@ -134,7 +141,7 @@
                         Console.WriteLine("Loggar ut...");
                         return;
                     default:
-                        Console.WriteLine("Ogiltligt val. Försök igen.");
+                        Console.WriteLine("Försök igen.");
                         break;
 
                 }
@@ -142,15 +149,87 @@
         }
         static void Accounts(int userIndex)
         {
+
             for (int i = 0; i < accountNames[userIndex].Length; i++)
             {
-                string accountUserName = accountNames[userIndex][i];
+                string accountName = accountNames[userIndex][i];
                 decimal accountValue = accounts[userIndex][i];
 
-                Console.WriteLine($"{accountUserName}");
-                Console.Write($":{accountValue}");
-                Console.WriteLine("");
+                Console.WriteLine($"{i + 1}. {accountName}: {accountValue:C}");
+
+
             }
         }
+
+        static void TransferMoney(int userIndex)
+        {
+
+            try
+            {
+                
+                for (int i = 0; i < accountNames[userIndex].Length; i++)
+                {
+                    string accountName = accountNames[userIndex][i];
+                    decimal accountValue = accounts[userIndex][i];
+
+                    Console.WriteLine($"{i + 1}. {accountName}: {accountValue:C}");
+                }
+
+                Console.WriteLine("Välj vilket konto du vill överföra ifrån (1 - {0}):", accountNames[userIndex].Length);
+                int fromAccount = int.Parse(Console.ReadLine()) - 1; 
+
+                Console.WriteLine("Välj vilket konto du vill överföra till (1 - {0}):", accountNames[userIndex].Length);
+                int toAccount = int.Parse(Console.ReadLine()) - 1; 
+
+                Console.WriteLine("Hur mycket pengar vill du överföra?");
+                decimal moneyToTransfer = decimal.Parse(Console.ReadLine());
+
+                
+                if (fromAccount < 0 || fromAccount >= accountNames[userIndex].Length ||
+                    toAccount < 0 || toAccount >= accountNames[userIndex].Length)
+                {
+                    Console.WriteLine("Ogiltiga konton. Försök igen.");
+                    return;
+                }
+
+                if (fromAccount == toAccount)
+                {
+                    Console.WriteLine("Du kan inte överföra mellan samma konto.");
+                    return;
+                }
+
+                if (moneyToTransfer <= 0)
+                {
+                    Console.WriteLine("Du måste överföra minst 1 SEK.");
+                    return;
+                }
+
+                
+                if (accounts[userIndex][fromAccount] < moneyToTransfer)
+                {
+                    Console.WriteLine("Du har för lite pengar på valt konto.");
+                    return;
+                }
+
+               
+                accounts[userIndex][fromAccount] -= moneyToTransfer;
+                accounts[userIndex][toAccount] += moneyToTransfer;
+
+                Console.Clear();
+                Console.WriteLine($"Överföring genomförd: {moneyToTransfer:C} från {accountNames[userIndex][fromAccount]} till {accountNames[userIndex][toAccount]}.");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Ogiltig inmatning. Vänligen ange siffror.");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"ERROR");
+            }
+        }
+
+
     }
 }
+
+
