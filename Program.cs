@@ -6,6 +6,33 @@
         static string[] userNameArray = { "Lisa1", "Tilda2", "Freja3", "Eva4", "Stella5" };
         static int[] passWordArray = { 1111, 2222, 3333, 4444, 5555 };
 
+
+        static decimal[][] accounts =
+
+
+        {
+          new  decimal [] {20000m},
+          new  decimal [] {20000m, 200000m},
+          new  decimal [] {20000m, 200000m, 2000m},
+          new  decimal [] {10000m, 100000m, 1000m, 100m},
+          new  decimal [] {10000m, 100000m, 1000m, 5000m, 7000m} 
+        };
+
+        static string[][] accountNames =
+        {
+          new string [] {"Lönekonto"},
+          new string [] {"Lönekonto", "Sparkonto"},
+          new string [] {"Lönekonto", "Sparkonto","Nöjen"},
+          new string [] {"Lönekonto", "Sparkonto", "Ny Cykel", "Lördagsgodis"},
+          new string [] {"Lönekonto", "Sparkonto", "Resekonto", "Veterinärkostnader", "Nöjen"}
+            };
+
+
+
+
+
+
+
         static void Main(string[] args)
         {
             Console.WriteLine("Välkommen till Bankomaten!");
@@ -50,6 +77,8 @@
                         {
                             if (passWordArray[i] == PIN)
                             {
+
+                                
                                 Console.WriteLine("Loggar nu in på din bank......*");
                                 Console.WriteLine("Tryck enter för att fortsätta: ");
                                 Console.ReadKey();
@@ -88,7 +117,7 @@
                 {
                     case 1:
                         // Metod för att se konton och saldo
-                        Console.WriteLine("alternativ 1");
+                        Accounts(userIndex);
                         break;
 
                     case 2:
@@ -109,6 +138,18 @@
                         break;
 
                 }
+            }
+        }
+        static void Accounts(int userIndex)
+        {
+            for (int i = 0; i < accountNames[userIndex].Length; i++)
+            {
+                string accountUserName = accountNames[userIndex][i];
+                decimal accountValue = accounts[userIndex][i];
+
+                Console.WriteLine($"{accountUserName}");
+                Console.Write($":{accountValue}");
+                Console.WriteLine("");
             }
         }
     }
