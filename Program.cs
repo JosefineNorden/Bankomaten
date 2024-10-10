@@ -144,6 +144,8 @@
                     case 4:
                         // An option for log out that returns to the main menu.
                         Console.WriteLine("Loggar ut...");
+                        Console.ReadKey();
+                        Console.Clear();
                         return;
                     // If the user input is other than 1-4, the program ask the user to try again.
                     default:
